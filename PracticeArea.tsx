@@ -260,10 +260,10 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  useEffect(scrollToBottom, [messages, scrollToBottom]);
+  useEffect(scrollToBottom, [messages.length, scrollToBottom]);
   
   const handleApiError = (error: unknown) => {
-    alert("Ocorreu um erro na comunicação com a IA. Verifique se sua chave de API está configurada corretamente e tente novamente.");
+    alert("Ocorreu um erro na comunicação com a IA. Verifique se sua chave de API está atualizada na Netlify e tente novamente.");
     console.error(error);
   };
 
