@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Feedback } from '../types';
+import type { Feedback } from './types';
 
 interface FeedbackModalProps {
   feedback: Feedback | null;

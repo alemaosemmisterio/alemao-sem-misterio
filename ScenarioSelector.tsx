@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { SCENARIOS } from '../constants';
-import type { Scenario } from '../types';
+import { SCENARIOS } from './constants';
+import type { Scenario } from './types';
 
 interface ScenarioSelectorProps {
   onScenarioSelect: (scenario: Scenario) => void;

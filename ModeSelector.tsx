@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Scenario, PracticeMode } from '../types';
+import type { Scenario, PracticeMode } from './types';
 
 interface ModeSelectorModalProps {
   scenario: Scenario;

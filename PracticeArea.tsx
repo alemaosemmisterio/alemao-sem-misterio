@@ -1,14 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality, Blob } from '@google/genai';
-// Per Gemini guidelines, API key is provided via environment variables.
-// The explicit import from config.ts has been removed.
-import type { Scenario, Message, Feedback, PracticeMode, Persona } from '../types';
-import { continueConversation, getInlineFeedback, generateAudio, translateText, getSuggestion } from '../services/geminiService';
+import type { Scenario, Message, Feedback, PracticeMode, Persona } from './types';
+import { continueConversation, getInlineFeedback, generateAudio, translateText, getSuggestion } from './geminiService';
 import FeedbackModal from './FeedbackModal';
 
-// Per Gemini guidelines, initialize with API key from environment variables.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
-// Infer the LiveSession type from the connect method's return type.
 type LiveSession = Awaited<ReturnType<typeof ai.live.connect>>;
 
 
@@ -16,7 +12,6 @@ type LiveSession = Awaited<ReturnType<typeof ai.live.connect>>;
 // AUDIO HELPERS
 // ===============================================
 
-// Base64 encoding/decoding
 function encode(bytes: Uint8Array) {
   let binary = '';
   const len = bytes.byteLength;
@@ -35,7 +30,6 @@ function decode(base64: string) {
     return bytes;
 }
 
-// Decode raw PCM audio data from Gemini TTS/Live API
 async function decodeAudioData(data: Uint8Array, ctx: AudioContext): Promise<AudioBuffer> {
     const sampleRate = 24000;
     const numChannels = 1;
@@ -123,7 +117,7 @@ const ChatInput: React.FC<{
         if (value.trim() && !isLoading && !isReadOnly) {
             onSendMessage();
             if (textareaRef.current) {
-                textareaRef.current.style.height = 'auto'; // Reset height
+                textareaRef.current.style.height = 'auto';
             }
         }
     };
@@ -227,12 +221,10 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [chatInputValue, setChatInputValue] = useState('');
   
-  // For Suggestions
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isSuggestionLoading, setIsSuggestionLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // For Voice Mode
   const [isRecording, setIsRecording] = useState(false);
   const sessionPromise = useRef<Promise<LiveSession> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -241,7 +233,6 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
   const mediaStreamSourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const nextStartTimeRef = useRef(0);
   const sourcesRef = useRef(new Set<AudioBufferSourceNode>());
-  // Refs to manage transcription state across renders and avoid stale closures
   const currentUserMessageIdRef = useRef<string | null>(null);
   const currentInputTranscriptionRef = useRef('');
   const currentModelMessageIdRef = useRef<string | null>(null);
@@ -277,8 +268,6 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
     console.error(error);
   };
 
-
-  // CHAT MODE LOGIC
   const handleSendMessage = async () => {
     const text = chatInputValue.trim();
     if (!text) return;
@@ -317,12 +306,10 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
     } catch (error) {
         handleApiError(error);
         setIsLoading(false);
-        // Revert optimistic UI update
         setMessages(messages);
     }
   };
 
-  // SUGGESTION LOGIC
   const handleGetSuggestions = async () => {
     setShowSuggestions(true);
     setIsSuggestionLoading(true);
@@ -344,7 +331,6 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
       setShowSuggestions(false);
   };
 
-  // FEEDBACK LOGIC
   const handleGetFeedback = async (messageId: string, text: string) => {
     try {
         const feedback = await getInlineFeedback(text);
@@ -355,7 +341,6 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
     }
   };
 
-  // TRANSLATION LOGIC
   const handleTranslateMessage = async (messageId: string, text: string) => {
     setMessages(prev => prev.map(m => m.id === messageId ? { ...m, isTranslating: true } : m));
     try {
@@ -371,7 +356,6 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
     }
   };
 
-  // VOICE MODE (LIVE API) LOGIC
   useEffect(() => {
     if (mode !== 'conversation' || isReadOnly) return;
     
@@ -476,7 +460,7 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
   }, [mode, isReadOnly, scenario.persona, onExit, persona]);
 
   const handleToggleRecording = () => {
-    if (!isRecording) { // Start recording
+    if (!isRecording) {
       if (scriptProcessorRef.current && mediaStreamSourceRef.current) {
         currentInputTranscriptionRef.current = ''; 
         const newId = `user-speaking-${Date.now()}`;
@@ -495,7 +479,7 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
         scriptProcessorRef.current.connect(audioContextRef.current!.destination); 
         setIsRecording(true);
       }
-    } else { // Stop recording
+    } else {
       if (scriptProcessorRef.current && mediaStreamSourceRef.current) {
         scriptProcessorRef.current.onaudioprocess = null; 
         scriptProcessorRef.current.disconnect();

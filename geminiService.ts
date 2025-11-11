@@ -1,11 +1,6 @@
-
-
 import { GoogleGenAI, GenerateContentResponse, Modality, Type } from "@google/genai";
-// Per Gemini guidelines, API key is handled via environment variables, so direct import is removed.
-import type { Scenario, Message, Feedback, OverallFeedback, PronunciationFeedback, Persona } from '../types';
+import type { Scenario, Message, Feedback, OverallFeedback, PronunciationFeedback, Persona } from './types';
 
-// FIX: Per Gemini API guidelines, API key is assumed to be present via environment variables.
-// The check for a placeholder key has been removed, which also resolves the TypeScript error.
 if (!process.env.API_KEY) {
   console.warn("Chave de API não configurada. Por favor, adicione-a como uma variável de ambiente API_KEY.");
 }
@@ -14,8 +9,6 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 const model = 'gemini-2.5-flash';
 
 async function safeApiCall<T>(apiCall: () => Promise<T>, errorMessage: string): Promise<T> {
-  // FIX: Per Gemini API guidelines, API key presence is assumed.
-  // The check for a placeholder key has been removed.
   try {
     return await apiCall();
   } catch (error) {
@@ -95,7 +88,6 @@ export async function translateText(textToTranslate: string): Promise<string> {
 // FEEDBACK & SUGGESTION FUNCTIONS
 // ===============================================
 
-// FIX: Using `Type` enum for schema definition as per Gemini API guidelines.
 const feedbackSchema = {
   type: Type.OBJECT,
   properties: {
@@ -144,7 +136,6 @@ export async function getInlineFeedback(userInput: string): Promise<Feedback> {
   return JSON.parse(response.text) as Feedback;
 }
 
-// FIX: Using `Type` enum for schema definition as per Gemini API guidelines.
 const overallFeedbackSchema = {
   type: Type.OBJECT,
   properties: {
@@ -184,7 +175,6 @@ export async function getOverallFeedback(messages: Message[], scenario: Scenario
   return JSON.parse(response.text) as OverallFeedback;
 }
 
-// FIX: Using `Type` enum for schema definition as per Gemini API guidelines.
 const suggestionSchema = {
     type: Type.OBJECT,
     properties: {
@@ -230,7 +220,6 @@ export async function getSuggestion(messages: Message[], scenario: Scenario): Pr
 // PRONUNCIATION FEEDBACK FUNCTION
 // ===============================================
 
-// FIX: Using `Type` enum for schema definition as per Gemini API guidelines.
 const pronunciationFeedbackSchema = {
   type: Type.OBJECT,
   properties: {

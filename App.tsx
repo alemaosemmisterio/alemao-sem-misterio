@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import ScenarioSelector from './components/ScenarioSelector';
-import PracticeArea from './components/PracticeArea';
-import PronunciationTrainer from './components/PronunciationTrainer';
-import ModeSelectorModal from './components/ModeSelector';
-import OverallFeedbackModal from './components/OverallFeedbackModal';
-// Per Gemini API guidelines, API key is handled via environment variables, so direct import is removed.
+import ScenarioSelector from './ScenarioSelector';
+import PracticeArea from './PracticeArea';
+import PronunciationTrainer from './PronunciationTrainer';
+import ModeSelectorModal from './ModeSelector';
+import OverallFeedbackModal from './OverallFeedbackModal';
 import type { Scenario, Message, OverallFeedback, PracticeMode, Persona } from './types';
-import { startScenario, getOverallFeedback, generateAudio } from './services/geminiService';
+import { startScenario, getOverallFeedback, generateAudio } from './geminiService';
 
 type AppState = 'selecting' | 'practicing' | 'feedback' | 'pronunciation';
 
@@ -129,9 +128,6 @@ const App: React.FC = () => {
     if (isLoading) {
         return <LoadingScreen message={loadingMessage} />;
     }
-    
-    // Per Gemini API guidelines, API key is assumed to be present via environment variables.
-    // The check for a placeholder key has been removed.
     
     switch (appState) {
         case 'selecting':
