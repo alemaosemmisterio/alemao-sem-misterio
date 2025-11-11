@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { getPronunciationFeedback, generateAudio } from '../services/geminiService';
 import type { PronunciationFeedback, WordFeedbackScore } from '../types';

@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality, Blob } from '@google/genai';
 // Per Gemini guidelines, API key is provided via environment variables.
@@ -10,7 +6,7 @@ import type { Scenario, Message, Feedback, PracticeMode, Persona } from '../type
 import { continueConversation, getInlineFeedback, generateAudio, translateText, getSuggestion } from '../services/geminiService';
 import FeedbackModal from './FeedbackModal';
 
-// FIX: Per Gemini guidelines, initialize with API key from environment variables.
+// Per Gemini guidelines, initialize with API key from environment variables.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 // Infer the LiveSession type from the connect method's return type.
 type LiveSession = Awaited<ReturnType<typeof ai.live.connect>>;
@@ -238,7 +234,6 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
 
   // For Voice Mode
   const [isRecording, setIsRecording] = useState(false);
-  // FIX: Inferred LiveSession type is used instead of `any`.
   const sessionPromise = useRef<Promise<LiveSession> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const outputAudioContextRef = useRef<AudioContext | null>(null);
