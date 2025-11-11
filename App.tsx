@@ -130,8 +130,8 @@ const App: React.FC = () => {
         return <LoadingScreen message={loadingMessage} />;
     }
     
-    // FIX: Per Gemini API guidelines, API key is assumed to be present via environment variables.
-    // The check for a placeholder key has been removed, which also resolves the TypeScript error.
+    // Per Gemini API guidelines, API key is assumed to be present via environment variables.
+    // The check for a placeholder key has been removed.
     
     switch (appState) {
         case 'selecting':
