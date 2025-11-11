@@ -257,7 +257,7 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
   }, []);
 
   const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, []);
 
   useEffect(scrollToBottom, [messages.length, scrollToBottom]);
@@ -510,7 +510,7 @@ const PracticeArea: React.FC<PracticeAreaProps> = ({ scenario, persona, initialM
         </div>
       </header>
       
-      <main className="flex-grow p-4 overflow-y-auto">
+      <main className="flex-grow p-4 overflow-y-auto overscroll-contain">
         <div className="space-y-6">
           {messages.map(msg => (
             <MessageBubble key={msg.id} message={msg} onGetFeedback={handleGetFeedback} onReplayAudio={playAudio} onTranslate={handleTranslateMessage} />

@@ -117,7 +117,7 @@ const PronunciationTrainer: React.FC<PronunciationTrainerProps> = ({ onExit }) =
     }, []);
     
     const handleApiError = (error: unknown) => {
-        setError("Ocorreu um erro na comunicação com a IA. Tente novamente.");
+        setError("Ocorreu um erro na comunicação com a IA. Verifique se sua chave de API está atualizada na Netlify.");
         console.error(error);
     };
 
