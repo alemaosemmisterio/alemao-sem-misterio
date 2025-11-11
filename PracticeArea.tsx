@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { GoogleGenAI, LiveServerMessage, Modality, Blob } from '@google/genai';
+import { LiveServerMessage, Modality, Blob } from '@google/genai';
 import type { Scenario, Message, Feedback, PracticeMode, Persona } from './types';
-import { continueConversation, getInlineFeedback, generateAudio, translateText, getSuggestion } from './geminiService';
+import { continueConversation, getInlineFeedback, generateAudio, translateText, getSuggestion, ai } from './geminiService';
 import FeedbackModal from './FeedbackModal';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 type LiveSession = Awaited<ReturnType<typeof ai.live.connect>>;
 
 

@@ -1,11 +1,8 @@
 import { GoogleGenAI, GenerateContentResponse, Modality, Type } from "@google/genai";
 import type { Scenario, Message, Feedback, OverallFeedback, PronunciationFeedback, Persona } from './types';
 
-if (!process.env.API_KEY) {
-  console.warn("Chave de API não configurada. Por favor, adicione-a como uma variável de ambiente API_KEY.");
-}
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+// A chave de API é injetada aqui pelo vite.config.ts durante o build
+export const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 const model = 'gemini-2.5-flash';
 
 async function safeApiCall<T>(apiCall: () => Promise<T>, errorMessage: string): Promise<T> {
