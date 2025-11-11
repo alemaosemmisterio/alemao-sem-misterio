@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Prática de Alemão - Nível A1",
+  "description": "An AI-powered application for German language learners (A1-B1). Features dual practice modes (chat with text/audio and voice-only conversation) and provides detailed, in-line and overall feedback in Portuguese on grammar, pronunciation, and sentence structure across a wide range of real-life scenarios.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

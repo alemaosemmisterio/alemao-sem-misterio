@@ -1,0 +1,73 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.shimmer-bg {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #e2e8f0 8%, #cbd5e1 18%, #e2e8f0 33%);
+  background-size: 1200px 100%;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Sparkle Animation for Loading Screen */
+@keyframes rise {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px);
+    opacity: 0;
+  }
+}
+
+.sparkle-container {
+  position: relative;
+  width: 100px;
+  height: 50px;
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #FFCC00; /* german-gold */
+  border-radius: 50%;
+  animation: rise 1.5s infinite ease-out;
+}
+
+.sparkle:nth-child(1) { left: 10%; animation-delay: 0.1s; animation-duration: 1.2s; width: 5px; height: 5px; }
+.sparkle:nth-child(2) { left: 30%; animation-delay: 0.4s; animation-duration: 1.8s; width: 7px; height: 7px; }
+.sparkle:nth-child(3) { left: 50%; animation-delay: 0.2s; animation-duration: 1.4s; }
+.sparkle:nth-child(4) { left: 70%; animation-delay: 0.6s; animation-duration: 2s; width: 5px; height: 5px; }
+.sparkle:nth-child(5) { left: 90%; animation-delay: 0.3s; animation-duration: 1.6s; }
+.sparkle:nth-child(6) { left: 60%; animation-delay: 0.8s; animation-duration: 1.3s; width: 4px; height: 4px; }
